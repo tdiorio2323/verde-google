@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { User } from '../types';
+import { User, Brand } from '../types';
 
 interface LoginProps {
-  onLogin: (user: User) => void;
+  onLogin: (user: User, brand: Brand) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
@@ -38,19 +38,38 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
     // Simulate API call
     setTimeout(() => {
+      let userBrand: Brand | null = null;
+      let success = false;
+
       if (vipCode === '420') {
+        userBrand = Brand.CANNA_CONNECT;
+        success = true;
+      } else if (vipCode === '1111') {
+        userBrand = Brand.LONG_MONEY_EXOTICS;
+        success = true;
+      }
+
+      if (success && userBrand) {
         const mockUser: User = {
-          id: 'vipuser',
-          email: email || 'vip@user.com',
-          name: email ? email.split('@')[0] : 'VIP User',
+          id: `${vipCode}-user`,
+          email: email || `${vipCode}@user.com`,
+          name: email ? email.split('@')[0] : (userBrand === Brand.LONG_MONEY_EXOTICS ? 'LME Member' : 'VIP User'),
         };
-        onLogin(mockUser);
+        onLogin(mockUser, userBrand);
       } else {
         setError('Invalid VIP Code. Please try again.');
         setVipCode('');
       }
       setIsSubmitting(false);
     }, 1000);
+  };
+
+  const handleVipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    // Allow only numbers and enforce max length
+    if (/^\d*$/.test(value) && value.length <= 4) {
+      setVipCode(value);
+    }
   };
 
   const commonInputClass = "appearance-none relative block w-full px-4 py-3 border border-white/20 placeholder-gray-400 text-white rounded-lg bg-white/10 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm";
@@ -96,7 +115,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               <input id="email-address" name="email" type="email" autoComplete="email" className={commonInputClass} placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
               <input id="password" name="password" type="password" autoComplete="current-password" className={commonInputClass} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <hr className="h-0.5 bg-gradient-to-r from-primary/25 via-primary to-primary/25 border-0 rounded-full" />
+            <hr className="border-white/20" />
             <div>
               <input
                 id="vip-code"
@@ -105,17 +124,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 inputMode="numeric"
                 pattern="[0-9]*"
                 autoComplete="one-time-code"
-                className={`${commonInputClass} text-center tracking-[0.5em] placeholder:tracking-normal`}
+                className={`${commonInputClass} text-center tracking-[0.5em] h-[50px] placeholder:tracking-normal`}
                 placeholder="VIP CODE"
                 value={vipCode}
-                onChange={(e) => {
-                    const numericValue = e.target.value.replace(/\D/g, '');
-                    if (numericValue.length <= 3) {
-                        setVipCode(numericValue);
-                    }
-                }}
-                maxLength={3}
-                required
+                onChange={handleVipCodeChange}
+                maxLength={4}
+                aria-label="Enter VIP Code"
               />
               {error && <p className="mt-2 text-sm text-red-400 text-center animate-pulse">{error}</p>}
             </div>

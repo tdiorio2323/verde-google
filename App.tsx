@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Product, CartItem, Category, Order } from './types';
+import { User, Product, CartItem, Category, Order, Brand } from './types';
 import { CATEGORIES, MOCK_PRODUCTS } from './constants';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
@@ -7,29 +7,14 @@ import Login from './components/Login';
 import CartView from './components/CartView';
 import OrderConfirmation from './components/OrderConfirmation';
 import ProductDetailView from './components/ProductDetailView';
+import LongMoneyExotics from './components/LongMoneyExotics';
 
 type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail';
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<User | null>(() => {
-    try {
-      const storedUser = localStorage.getItem('cannaConnectUser');
-      if (storedUser) {
-        return JSON.parse(storedUser);
-      }
-    } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
-      localStorage.removeItem('cannaConnectUser'); // Clear corrupted data
-    }
-    return null;
-  });
-
-  const [currentView, setCurrentView] = useState<View>(() => {
-    const storedUser = localStorage.getItem('cannaConnectUser');
-    // Basic check is enough, since user state will have the full parsed object
-    return storedUser ? 'products' : 'login';
-  });
-
+  const [user, setUser] = useState<User | null>(null);
+  const [brand, setBrand] = useState<Brand | null>(null);
+  const [currentView, setCurrentView] = useState<View>('login');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [products] = useState<Product[]>(MOCK_PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Category.FLOWER);
@@ -43,15 +28,15 @@ const App: React.FC = () => {
     }
   }, [user, currentView]);
   
-  const handleLogin = (loggedInUser: User) => {
+  const handleLogin = (loggedInUser: User, brandToSet: Brand) => {
     setUser(loggedInUser);
-    localStorage.setItem('cannaConnectUser', JSON.stringify(loggedInUser));
+    setBrand(brandToSet);
     setCurrentView('products');
   };
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem('cannaConnectUser');
+    setBrand(null);
     setCurrentView('login'); // Go back to login screen on logout
   };
   
@@ -150,8 +135,17 @@ const App: React.FC = () => {
       }
       case 'products':
       default:
+        if (brand === Brand.LONG_MONEY_EXOTICS) {
+          const lmeProducts = products.filter(p => p.brand === Brand.LONG_MONEY_EXOTICS);
+          return <LongMoneyExotics 
+            products={lmeProducts} 
+            onAddToCart={addToCart} 
+            onSelectProduct={handleSelectProduct} 
+          />
+        }
+
         const filteredProducts = products.filter(
-          (p) => p.category === selectedCategory
+          (p) => p.category === selectedCategory && (p.brand === Brand.CANNA_CONNECT || !p.brand)
         );
         return (
           <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
