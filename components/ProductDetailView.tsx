@@ -12,9 +12,10 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, onAddToC
   const [added, setAdded] = useState(false);
   
   const handleAddToCart = () => {
+    if (!product.inStock || added) return;
     onAddToCart(product);
     setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+    setTimeout(() => setAdded(false), 2000);
   };
 
   return (
@@ -31,27 +32,45 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, onAddToC
           <img 
             src={product.imageUrl} 
             alt={product.name} 
-            className="w-full h-auto aspect-square object-cover rounded-xl shadow-2xl" 
+            className={`w-full h-auto aspect-square object-cover rounded-xl shadow-2xl ${!product.inStock ? 'opacity-60' : ''}`}
           />
         </div>
 
         <div className="flex flex-col justify-center">
           <span className="inline-block bg-primary/20 text-primary text-sm font-semibold px-3 py-1 rounded-full mb-3 self-start">{product.category}</span>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-100 mb-4">{product.name}</h1>
-          <p className="text-3xl font-bold text-primary mb-6">${product.price.toFixed(2)}</p>
+          <div className="flex items-baseline gap-4 mb-6">
+            <p className="text-3xl font-bold text-primary">${product.price.toFixed(2)}</p>
+            {!product.inStock && (
+                <span className="text-lg font-semibold px-3 py-1 rounded-full bg-red-500/20 text-red-400">Out of Stock</span>
+            )}
+          </div>
           <p className="text-gray-300 leading-relaxed mb-8">{product.description}</p>
           
-          <div className="mt-auto">
-             <button
-              onClick={handleAddToCart}
-              aria-label={`Add ${product.name} to cart`}
-              className={`w-full flex items-center justify-center py-4 px-6 text-lg font-bold rounded-lg transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-200 ${
-                added 
-                  ? 'bg-amber-500 text-white focus:ring-amber-400' 
-                  : 'bg-primary text-secondary hover:bg-green-300 focus:ring-primary'
+          <div className="mt-auto relative">
+            <div 
+              aria-live="polite"
+              className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded-md shadow-lg transition-all duration-300 ease-in-out ${
+                added ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
               }`}
             >
-              {added ? (
+                Item added to your cart!
+            </div>
+             <button
+              onClick={handleAddToCart}
+              disabled={!product.inStock || added}
+              aria-label={!product.inStock ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
+              className={`w-full flex items-center justify-center py-4 px-6 text-lg font-bold rounded-lg transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-200 ${
+                !product.inStock
+                  ? 'bg-base-300 text-gray-500 cursor-not-allowed'
+                  : added 
+                    ? 'bg-amber-500 text-white focus:ring-amber-400' 
+                    : 'bg-primary text-secondary hover:bg-green-300 focus:ring-primary'
+              }`}
+            >
+              {!product.inStock ? (
+                <span>Out of Stock</span>
+              ) : added ? (
                 <>
                   <CheckCircleIcon className="w-7 h-7 mr-3" />
                   <span>Added to Cart</span>

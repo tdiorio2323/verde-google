@@ -18,6 +18,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 55.00,
     description: "An invigorating sativa strain with a pungent, diesel-like aroma.",
     imageUrl: "https://i.imgur.com/CH8PUGc.jpeg",
+    inStock: true,
   },
   {
     id: "f2",
@@ -26,6 +27,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 60.00,
     description: "A potent and flavorful strain from the experts at TD STUDIOS.",
     imageUrl: "https://i.imgur.com/zCN6q8E.jpeg",
+    inStock: true,
   },
   {
     id: "f3",
@@ -34,6 +36,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 58.00,
     description: "A unique and exciting strain by Sprinklez, sure to be a new favorite.",
     imageUrl: "https://i.imgur.com/RuquitD.jpeg",
+    inStock: false,
   },
   {
     id: "f4",
@@ -42,6 +45,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 62.00,
     description: "Another top-shelf offering from TD Studios, known for its strong effects.",
     imageUrl: "https://i.imgur.com/DVpReok.jpeg",
+    inStock: true,
   },
   {
     id: "f5",
@@ -50,6 +54,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 54.00,
     description: "A sweet and powerful strain by Quick Printz with a candy-like aroma.",
     imageUrl: "https://i.imgur.com/GRvjzK5.jpeg",
+    inStock: true,
   },
 
   // Pre-Packaged
@@ -60,6 +65,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 55.00,
     description: "A convenient pre-packaged eighth of the invigorating Sour Diesel.",
     imageUrl: "https://i.imgur.com/CH8PUGc.jpeg",
+    inStock: true,
   },
   {
     id: "pp2",
@@ -68,6 +74,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 60.00,
     description: "A pre-packaged eighth of the potent and flavorful WHOPPERZ.",
     imageUrl: "https://i.imgur.com/zCN6q8E.jpeg",
+    inStock: true,
   },
   {
     id: "pp3",
@@ -76,6 +83,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 58.00,
     description: "A pre-packaged eighth of the unique and exciting Baby Mama Drama.",
     imageUrl: "https://i.imgur.com/RuquitD.jpeg",
+    inStock: false,
   },
   {
     id: "pp4",
@@ -84,6 +92,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 62.00,
     description: "A pre-packaged eighth of the top-shelf GOOF TROOP.",
     imageUrl: "https://i.imgur.com/DVpReok.jpeg",
+    inStock: true,
   },
   {
     id: "pp5",
@@ -92,6 +101,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 54.00,
     description: "A pre-packaged eighth of the sweet and powerful Blow Pop.",
     imageUrl: "https://i.imgur.com/GRvjzK5.jpeg",
+    inStock: true,
   },
 
   // Edibles
@@ -102,6 +112,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 45.00,
     description: "An incredibly potent and delicious double fudge brownie, perfect for experienced users.",
     imageUrl: "https://i.imgur.com/9g22Kjt.jpeg",
+    inStock: true,
   },
   {
     id: "e1",
@@ -110,6 +121,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 25.00,
     description: "Delicious fruit-flavored gummies, each with 10mg THC.",
     imageUrl: "https://picsum.photos/seed/gummybites/400/400",
+    inStock: true,
   },
   {
     id: "e2",
@@ -118,6 +130,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 30.00,
     description: "Rich dark chocolate with a potent punch. Breakable into 10mg squares.",
     imageUrl: "https://picsum.photos/seed/chocolatebar/400/400",
+    inStock: true,
   },
   {
     id: "e3",
@@ -126,6 +139,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 28.00,
     description: "Fudgy and delicious brownie bites, with 15mg THC each.",
     imageUrl: "https://picsum.photos/seed/browniebites/400/400",
+    inStock: true,
   },
   {
     id: "e4",
@@ -134,6 +148,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 50.00,
     description: "A fast-acting sublingual tincture for precise dosing.",
     imageUrl: "https://picsum.photos/seed/thctincture/400/400",
+    inStock: true,
   },
 
   // Concentrate
@@ -143,7 +158,8 @@ export const MOCK_PRODUCTS: Product[] = [
     category: Category.CONCENTRATE,
     price: 60.00,
     description: "High-terpene full spectrum extract for the discerning connoisseur.",
-    imageUrl: "https://picsum.photos/seed/liveresin/400/400",
+    imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
+    inStock: true,
   },
   {
     id: "c2",
@@ -151,7 +167,8 @@ export const MOCK_PRODUCTS: Product[] = [
     category: Category.CONCENTRATE,
     price: 55.00,
     description: "A stable and potent concentrate with a glass-like consistency.",
-    imageUrl: "https://picsum.photos/seed/shatter/400/400",
+    imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
+    inStock: false,
   },
   {
     id: "c3",
@@ -159,7 +176,8 @@ export const MOCK_PRODUCTS: Product[] = [
     category: Category.CONCENTRATE,
     price: 70.00,
     description: "Solventless rosin with a pure and potent flavor profile.",
-    imageUrl: "https://picsum.photos/seed/rosin/400/400",
+    imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
+    inStock: true,
   },
   {
     id: "c4",
@@ -167,7 +185,8 @@ export const MOCK_PRODUCTS: Product[] = [
     category: Category.CONCENTRATE,
     price: 50.00,
     description: "A soft, opaque concentrate that is easy to handle.",
-    imageUrl: "https://picsum.photos/seed/wax/400/400",
+    imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
+    inStock: true,
   },
   {
     id: "c5",
@@ -175,7 +194,8 @@ export const MOCK_PRODUCTS: Product[] = [
     category: Category.CONCENTRATE,
     price: 80.00,
     description: "Pure THCa crystals suspended in a terpene-rich sauce.",
-    imageUrl: "https://picsum.photos/seed/diamonds/400/400",
+    imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
+    inStock: true,
   },
 
   // Disposables
@@ -186,6 +206,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 40.00,
     description: "A discreet and easy-to-use disposable vape pen with a balanced hybrid oil.",
     imageUrl: "https://picsum.photos/seed/hybridvape/400/400",
+    inStock: true,
   },
   {
     id: "d2",
@@ -194,6 +215,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 45.00,
     description: "A high-CBD disposable vape for relaxation without the high.",
     imageUrl: "https://picsum.photos/seed/cbdvape/400/400",
+    inStock: true,
   },
   {
     id: "d3",
@@ -202,6 +224,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 40.00,
     description: "An uplifting sativa vape for creativity and focus.",
     imageUrl: "https://picsum.photos/seed/sativavape/400/400",
+    inStock: true,
   },
   {
     id: "d4",
@@ -210,6 +233,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 40.00,
     description: "A relaxing indica vape to help you unwind.",
     imageUrl: "https://picsum.photos/seed/indicavape/400/400",
+    inStock: true,
   },
   {
     id: "d5",
@@ -218,6 +242,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 45.00,
     description: "A balanced blend of CBD and THC for a mellow experience.",
     imageUrl: "https://picsum.photos/seed/1to1vape/400/400",
+    inStock: true,
   },
 
   // Merch
@@ -228,6 +253,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 25.00,
     description: "A comfortable and stylish t-shirt with our brand logo.",
     imageUrl: "https://picsum.photos/seed/tshirt/400/400",
+    inStock: true,
   },
   {
     id: "m2",
@@ -236,6 +262,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 30.00,
     description: "A high-quality snapback hat with an embroidered logo.",
     imageUrl: "https://picsum.photos/seed/snapback/400/400",
+    inStock: true,
   },
   {
     id: "m3",
@@ -244,6 +271,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 20.00,
     description: "A warm and stylish beanie with our logo.",
     imageUrl: "https://picsum.photos/seed/beanie/400/400",
+    inStock: true,
   },
   {
     id: "m4",
@@ -252,6 +280,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 15.00,
     description: "A durable 4-piece metal grinder for the perfect consistency.",
     imageUrl: "https://picsum.photos/seed/grinder/400/400",
+    inStock: false,
   },
   {
     id: "m5",
@@ -260,5 +289,6 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 18.00,
     description: "A custom rolling tray to keep your space clean.",
     imageUrl: "https://picsum.photos/seed/rollingtray/400/400",
+    inStock: true,
   },
 ];
