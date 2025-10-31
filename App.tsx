@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { User, Product, CartItem, Category, Order } from './types';
-import { CATEGORIES, MOCK_PRODUCTS, LONG_MONEY_PRODUCTS } from './constants';
+import { CATEGORIES, MOCK_PRODUCTS } from './constants';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
 import Login from './components/Login';
 import CartView from './components/CartView';
 import OrderConfirmation from './components/OrderConfirmation';
 import ProductDetailView from './components/ProductDetailView';
-import LongMoneyExoticsView from './components/LongMoneyExoticsView';
 
-type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail' | 'longMoneyProducts';
-type Brand = 'Verde' | 'LongMoneyExotics';
+type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [currentBrand, setCurrentBrand] = useState<Brand | null>(null);
   const [currentView, setCurrentView] = useState<View>('login');
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [products] = useState<Product[]>([...MOCK_PRODUCTS, ...LONG_MONEY_PRODUCTS]);
+  const [products] = useState<Product[]>(MOCK_PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Category.FLOWER);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
@@ -29,16 +26,13 @@ const App: React.FC = () => {
     }
   }, [user, currentView]);
   
-  const handleLogin = (brand: Brand, loggedInUser: User) => {
+  const handleLogin = (loggedInUser: User) => {
     setUser(loggedInUser);
-    setCurrentBrand(brand);
-    setCurrentView(brand === 'Verde' ? 'products' : 'longMoneyProducts');
+    setCurrentView('products');
   };
 
   const handleLogout = () => {
     setUser(null);
-    setCurrentBrand(null);
-    setCart([]);
     setCurrentView('login'); // Go back to login screen on logout
   };
   
@@ -94,16 +88,13 @@ const App: React.FC = () => {
 
   const startNewOrder = () => {
     setCurrentOrder(null);
-    backToProducts();
+    setCurrentView('products');
   }
 
   const navigate = (view: 'products' | 'cart' | 'login') => {
     if ((view === 'cart' || view === 'products') && !user) {
         setCurrentView('login');
-    } else if (view === 'products') {
-        backToProducts();
-    }
-    else {
+    } else {
         setSelectedProductId(null); // Reset selected product when navigating via header
         setCurrentView(view);
     }
@@ -111,7 +102,7 @@ const App: React.FC = () => {
 
   const backToProducts = () => {
     setSelectedProductId(null);
-    setCurrentView(currentBrand === 'LongMoneyExotics' ? 'longMoneyProducts' : 'products');
+    setCurrentView('products');
   };
 
   const renderContent = () => {
@@ -134,18 +125,13 @@ const App: React.FC = () => {
         }
         return <ProductDetailView 
                   product={selectedProduct} 
-                  onAddToCart={(product, quantity) => addToCart(product, quantity)} 
+                  onAddToCart={(product) => addToCart(product)} 
                   onBack={backToProducts}
                />;
       }
-       case 'longMoneyProducts':
-        return <LongMoneyExoticsView 
-                 onAddToCart={addToCart}
-                 onSelectProduct={handleSelectProduct}
-               />;
       case 'products':
       default:
-        const filteredProducts = MOCK_PRODUCTS.filter(
+        const filteredProducts = products.filter(
           (p) => p.category === selectedCategory
         );
         return (
@@ -184,13 +170,13 @@ const App: React.FC = () => {
     }
   };
 
-  if (!user) {
+  if (currentView === 'login') {
     return <Login onLogin={handleLogin} />;
   }
 
   return (
     <div className="min-h-screen font-sans">
-      <Header user={user} cart={cart} onNavigate={navigate} onLogout={handleLogout} currentBrand={currentBrand} />
+      <Header user={user} cart={cart} onNavigate={navigate} onLogout={handleLogout} />
       {renderContent()}
     </div>
   );
