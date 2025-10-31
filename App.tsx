@@ -10,7 +10,7 @@ import ProductDetailView from './components/ProductDetailView';
 import LongMoneyExoticsView from './components/LongMoneyExoticsView';
 
 type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail' | 'longMoneyProducts';
-type Brand = 'CannaConnect' | 'LongMoneyExotics';
+type Brand = 'Verde' | 'LongMoneyExotics';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -32,7 +32,7 @@ const App: React.FC = () => {
   const handleLogin = (brand: Brand, loggedInUser: User) => {
     setUser(loggedInUser);
     setCurrentBrand(brand);
-    setCurrentView(brand === 'CannaConnect' ? 'products' : 'longMoneyProducts');
+    setCurrentView(brand === 'Verde' ? 'products' : 'longMoneyProducts');
   };
 
   const handleLogout = () => {
@@ -190,7 +190,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen font-sans">
-      <Header user={user} cart={cart} onNavigate={navigate} onLogout={handleLogout} />
+      <Header user={user} cart={cart} onNavigate={navigate} onLogout={handleLogout} currentBrand={currentBrand} />
       {renderContent()}
     </div>
   );

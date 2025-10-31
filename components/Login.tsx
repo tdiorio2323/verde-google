@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { User } from '../types';
 
 interface LoginProps {
-  onLogin: (brand: 'CannaConnect' | 'LongMoneyExotics', user: User) => void;
+  onLogin: (brand: 'Verde' | 'LongMoneyExotics', user: User) => void;
 }
 
 interface KeypadProps {
@@ -64,7 +64,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleEnter = () => {
     if (vipCode === '420' || vipCode === '1111') {
-      const brand = vipCode === '420' ? 'CannaConnect' : 'LongMoneyExotics';
+      const brand = vipCode === '420' ? 'Verde' : 'LongMoneyExotics';
       const mockUser: User = { id: 'demouser', email: 'vip@user.com', name: 'VIP User' };
       onLogin(brand, mockUser);
       setShowKeypad(false);
@@ -93,7 +93,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="min-h-screen flex items-center justify-center p-4 text-white">
         <div className="max-w-md w-full rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 shadow-2xl p-8 space-y-6">
           <div className="text-center">
-            <img src="https://i.imgur.com/JxVSoD0.png" alt="CannaConnect Logo" className="mx-auto h-40 w-auto" />
+            <img src="https://i.imgur.com/JxVSoD0.png" alt="Verde Logo" className="mx-auto h-40 w-auto" />
             <p className="mt-4 text-lg text-gray-400">
               Unlock Exclusive Access to the Portal
             </p>

@@ -7,10 +7,19 @@ interface HeaderProps {
   cart: CartItem[];
   onNavigate: (view: 'products' | 'cart' | 'login') => void;
   onLogout: () => void;
+  currentBrand: 'Verde' | 'LongMoneyExotics' | null;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, cart, onNavigate, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ user, cart, onNavigate, onLogout, currentBrand }) => {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+  const logoUrl = currentBrand === 'LongMoneyExotics' 
+    ? 'https://i.imgur.com/QY4lZQg.png' 
+    : 'https://i.imgur.com/G5g2r9s.png';
+  
+  const logoAlt = currentBrand === 'LongMoneyExotics' 
+    ? 'Long Money Exotics Logo' 
+    : 'Verde Logo';
 
   return (
     <header className="bg-base-200/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -20,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ user, cart, onNavigate, onLogout }) => 
             className="flex items-center cursor-pointer"
             onClick={() => onNavigate('products')}
           >
-            <img src="https://i.imgur.com/JxVSoD0.png" alt="CannaConnect Logo" className="h-12 w-auto" />
+            <img src={logoUrl} alt={logoAlt} className="h-12 w-auto" />
           </div>
           <div className="flex items-center space-x-4">
             <button
