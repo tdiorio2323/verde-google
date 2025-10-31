@@ -11,8 +11,25 @@ import ProductDetailView from './components/ProductDetailView';
 type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail';
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [currentView, setCurrentView] = useState<View>('login');
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const storedUser = localStorage.getItem('cannaConnectUser');
+      if (storedUser) {
+        return JSON.parse(storedUser);
+      }
+    } catch (error) {
+      console.error("Failed to parse user from localStorage", error);
+      localStorage.removeItem('cannaConnectUser'); // Clear corrupted data
+    }
+    return null;
+  });
+
+  const [currentView, setCurrentView] = useState<View>(() => {
+    const storedUser = localStorage.getItem('cannaConnectUser');
+    // Basic check is enough, since user state will have the full parsed object
+    return storedUser ? 'products' : 'login';
+  });
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [products] = useState<Product[]>(MOCK_PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Category.FLOWER);
@@ -28,11 +45,13 @@ const App: React.FC = () => {
   
   const handleLogin = (loggedInUser: User) => {
     setUser(loggedInUser);
+    localStorage.setItem('cannaConnectUser', JSON.stringify(loggedInUser));
     setCurrentView('products');
   };
 
   const handleLogout = () => {
     setUser(null);
+    localStorage.removeItem('cannaConnectUser');
     setCurrentView('login'); // Go back to login screen on logout
   };
   

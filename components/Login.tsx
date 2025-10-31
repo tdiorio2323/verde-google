@@ -1,44 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../types';
-import { BackspaceIcon } from './Icons';
-
-interface KeypadProps {
-    onKeyPress: (key: string) => void;
-    onDelete: () => void;
-    onClose: () => void;
-}
-
-const Keypad: React.FC<KeypadProps> = ({ onKeyPress, onDelete, onClose }) => {
-  const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'DEL'];
-
-  const handleKeyClick = (key: string) => {
-    if (key === 'DEL') {
-      onDelete();
-    } else if (key !== '') {
-      onKeyPress(key);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end" onClick={onClose}>
-        <div className="w-full bg-base-300/90 p-4 rounded-t-2xl shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="grid grid-cols-3 gap-2">
-                {keys.map((key, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handleKeyClick(key)}
-                        className="py-4 text-2xl font-bold text-white bg-base-200/80 rounded-lg hover:bg-primary hover:text-secondary focus:bg-primary focus:text-secondary transition-colors duration-200 disabled:opacity-0 disabled:pointer-events-none focus:outline-none"
-                        disabled={key === ''}
-                        aria-label={key === 'DEL' ? 'Delete' : `Number ${key}`}
-                    >
-                        {key === 'DEL' ? <BackspaceIcon className="w-8 h-8 mx-auto" /> : key}
-                    </button>
-                ))}
-            </div>
-        </div>
-    </div>
-  );
-};
 
 interface LoginProps {
   onLogin: (user: User) => void;
@@ -49,7 +10,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [vipCode, setVipCode] = useState('');
-  const [showKeypad, setShowKeypad] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -91,16 +51,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       }
       setIsSubmitting(false);
     }, 1000);
-  };
-
-  const handleKeypadKeyPress = (key: string) => {
-    if (vipCode.length < 3) {
-      setVipCode(prev => prev + key);
-    }
-  };
-
-  const handleKeypadDelete = () => {
-    setVipCode(prev => prev.slice(0, -1));
   };
 
   const commonInputClass = "appearance-none relative block w-full px-4 py-3 border border-white/20 placeholder-gray-400 text-white rounded-lg bg-white/10 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm";
@@ -146,11 +96,27 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               <input id="email-address" name="email" type="email" autoComplete="email" className={commonInputClass} placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
               <input id="password" name="password" type="password" autoComplete="current-password" className={commonInputClass} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <hr className="border-white/20" />
+            <hr className="h-0.5 bg-gradient-to-r from-primary/25 via-primary to-primary/25 border-0 rounded-full" />
             <div>
-              <div id="vip-code" onClick={() => setShowKeypad(true)} className="cursor-pointer relative block w-full px-4 py-3 border border-white/20 text-white rounded-lg bg-white/10 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-center tracking-[0.5em] h-[50px] flex items-center justify-center" aria-label="Enter VIP Code">
-                {vipCode ? vipCode.replace(/./g, '●') : <span className="text-gray-400 normal-case tracking-normal">VIP CODE</span>}
-              </div>
+              <input
+                id="vip-code"
+                name="vip-code"
+                type="password"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                autoComplete="one-time-code"
+                className={`${commonInputClass} text-center tracking-[0.5em] placeholder:tracking-normal`}
+                placeholder="VIP CODE"
+                value={vipCode}
+                onChange={(e) => {
+                    const numericValue = e.target.value.replace(/\D/g, '');
+                    if (numericValue.length <= 3) {
+                        setVipCode(numericValue);
+                    }
+                }}
+                maxLength={3}
+                required
+              />
               {error && <p className="mt-2 text-sm text-red-400 text-center animate-pulse">{error}</p>}
             </div>
             <div>
@@ -161,7 +127,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </form>
         )}
       </div>
-      {showKeypad && <Keypad onKeyPress={handleKeypadKeyPress} onDelete={handleKeypadDelete} onClose={() => setShowKeypad(false)} />}
     </div>
   );
 };
