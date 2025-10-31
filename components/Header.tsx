@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ user, cart, onNavigate, onLogout, curre
 
   const logoUrl = currentBrand === 'LongMoneyExotics' 
     ? 'https://i.imgur.com/QY4lZQg.png' 
-    : 'https://i.imgur.com/G5g2r9s.png';
+    : 'https://i.imgur.com/JxVSoD0.png';
   
   const logoAlt = currentBrand === 'LongMoneyExotics' 
     ? 'Long Money Exotics Logo' 
