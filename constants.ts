@@ -294,11 +294,11 @@ export const MOCK_PRODUCTS: Product[] = [
 ];
 
 export const LONG_MONEY_PRODUCTS: Product[] = [
-  // Flower
+  // Pre-Packaged Flower
   {
     id: "lme_f1",
     name: "LME Signature - Gassy Taffy (3.5g)",
-    category: Category.FLOWER,
+    category: Category.PRE_PACKAGED,
     price: 75.00,
     description: "Exclusive top-shelf flower from Long Money Exotics. A potent, flavorful experience.",
     imageUrl: "https://i.imgur.com/QY4lZQg.png",
@@ -307,40 +307,29 @@ export const LONG_MONEY_PRODUCTS: Product[] = [
   {
     id: "lme_f2",
     name: "LME Reserve - Platinum Zkittlez (3.5g)",
-    category: Category.FLOWER,
+    category: Category.PRE_PACKAGED,
     price: 80.00,
     description: "A rare and powerful strain with a sweet candy aroma, reserved for connoisseurs.",
     imageUrl: "https://i.imgur.com/QY4lZQg.png",
     inStock: true,
   },
-  // Edibles
+  // Merch
   {
-    id: "lme_e1",
-    name: "LME Gold-Infused Gummies (500mg)",
-    category: Category.EDIBLES,
-    price: 60.00,
-    description: "Luxurious and potent gummies infused with 24k edible gold flakes.",
-    imageUrl: "https://i.imgur.com/QY4lZQg.png",
+    id: "lme_m1",
+    name: "Long Money Exotics Beanie (Grey)",
+    category: Category.MERCH,
+    price: 25.00,
+    description: "Stay warm and rep the brand with this high-quality grey beanie.",
+    imageUrl: "https://i.imgur.com/BUNigf2.jpeg",
     inStock: true,
   },
-   // Concentrate
   {
-    id: "lme_c1",
-    name: "LME Live Rosin (1g)",
-    category: Category.CONCENTRATE,
-    price: 90.00,
-    description: "Solventless live rosin with an unmatched pure and potent flavor profile.",
-    imageUrl: "https://i.imgur.com/QY4lZQg.png",
-    inStock: true,
-  },
-  // Disposables
-  {
-    id: "lme_d1",
-    name: "LME Liquid Diamond Vape (1g)",
-    category: Category.DISPOSABLES,
-    price: 65.00,
-    description: "A premium disposable vape filled with pure liquid diamond extract for an unparalleled high.",
-    imageUrl: "https://i.imgur.com/QY4lZQg.png",
+    id: "lme_m2",
+    name: "Long Money Exotics Sticker",
+    category: Category.MERCH,
+    price: 7.00,
+    description: "High-quality die-cut sticker to put on your favorite gear.",
+    imageUrl: "https://i.imgur.com/s01nTdc.png",
     inStock: true,
   },
 ];

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product, Category } from '../types';
-import { CATEGORIES, LONG_MONEY_PRODUCTS } from '../constants';
+import { LONG_MONEY_PRODUCTS } from '../constants';
 import ProductCard from './ProductCard';
 
 interface LongMoneyExoticsViewProps {
@@ -8,8 +8,10 @@ interface LongMoneyExoticsViewProps {
   onSelectProduct: (productId: string) => void;
 }
 
+const LME_CATEGORIES = [Category.PRE_PACKAGED, Category.MERCH];
+
 const LongMoneyExoticsView: React.FC<LongMoneyExoticsViewProps> = ({ onAddToCart, onSelectProduct }) => {
-  const [selectedCategory, setSelectedCategory] = useState<Category>(Category.FLOWER);
+  const [selectedCategory, setSelectedCategory] = useState<Category>(Category.PRE_PACKAGED);
   const filteredProducts = LONG_MONEY_PRODUCTS.filter(p => p.category === selectedCategory);
 
   return (
@@ -20,8 +22,8 @@ const LongMoneyExoticsView: React.FC<LongMoneyExoticsViewProps> = ({ onAddToCart
         <p className="text-lg text-gray-400">Exclusive drops for VIP members.</p>
       </div>
       <div className="mb-8 -mx-4 sm:-mx-6 lg:-mx-8">
-        <div className="flex space-x-3 overflow-x-auto pb-4 scrollbar-hide px-4 sm:px-6 lg:px-8">
-          {CATEGORIES.map((category) => (
+        <div className="flex justify-center space-x-3 overflow-x-auto pb-4 scrollbar-hide px-4 sm:px-6 lg:px-8">
+          {LME_CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
