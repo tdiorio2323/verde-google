@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { User, Product, CartItem, Category, Order } from './types';
-import { CATEGORIES, MOCK_PRODUCTS } from './constants';
+import { CATEGORIES, MOCK_PRODUCTS, LONG_MONEY_PRODUCTS } from './constants';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
 import Login from './components/Login';
 import CartView from './components/CartView';
 import OrderConfirmation from './components/OrderConfirmation';
 import ProductDetailView from './components/ProductDetailView';
+import LongMoneyExoticsView from './components/LongMoneyExoticsView';
 
-type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail';
+type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail' | 'longMoneyProducts';
+type Brand = 'CannaConnect' | 'LongMoneyExotics';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [currentBrand, setCurrentBrand] = useState<Brand | null>(null);
   const [currentView, setCurrentView] = useState<View>('login');
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [products] = useState<Product[]>(MOCK_PRODUCTS);
+  const [products] = useState<Product[]>([...MOCK_PRODUCTS, ...LONG_MONEY_PRODUCTS]);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Category.FLOWER);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
@@ -26,13 +29,16 @@ const App: React.FC = () => {
     }
   }, [user, currentView]);
   
-  const handleLogin = (loggedInUser: User) => {
+  const handleLogin = (brand: Brand, loggedInUser: User) => {
     setUser(loggedInUser);
-    setCurrentView('products');
+    setCurrentBrand(brand);
+    setCurrentView(brand === 'CannaConnect' ? 'products' : 'longMoneyProducts');
   };
 
   const handleLogout = () => {
     setUser(null);
+    setCurrentBrand(null);
+    setCart([]);
     setCurrentView('login'); // Go back to login screen on logout
   };
   
@@ -88,13 +94,16 @@ const App: React.FC = () => {
 
   const startNewOrder = () => {
     setCurrentOrder(null);
-    setCurrentView('products');
+    backToProducts();
   }
 
   const navigate = (view: 'products' | 'cart' | 'login') => {
     if ((view === 'cart' || view === 'products') && !user) {
         setCurrentView('login');
-    } else {
+    } else if (view === 'products') {
+        backToProducts();
+    }
+    else {
         setSelectedProductId(null); // Reset selected product when navigating via header
         setCurrentView(view);
     }
@@ -102,7 +111,7 @@ const App: React.FC = () => {
 
   const backToProducts = () => {
     setSelectedProductId(null);
-    setCurrentView('products');
+    setCurrentView(currentBrand === 'LongMoneyExotics' ? 'longMoneyProducts' : 'products');
   };
 
   const renderContent = () => {
@@ -125,13 +134,18 @@ const App: React.FC = () => {
         }
         return <ProductDetailView 
                   product={selectedProduct} 
-                  onAddToCart={(product) => addToCart(product)} 
+                  onAddToCart={(product, quantity) => addToCart(product, quantity)} 
                   onBack={backToProducts}
                />;
       }
+       case 'longMoneyProducts':
+        return <LongMoneyExoticsView 
+                 onAddToCart={addToCart}
+                 onSelectProduct={handleSelectProduct}
+               />;
       case 'products':
       default:
-        const filteredProducts = products.filter(
+        const filteredProducts = MOCK_PRODUCTS.filter(
           (p) => p.category === selectedCategory
         );
         return (
@@ -170,7 +184,7 @@ const App: React.FC = () => {
     }
   };
 
-  if (currentView === 'login') {
+  if (!user) {
     return <Login onLogin={handleLogin} />;
   }
 
