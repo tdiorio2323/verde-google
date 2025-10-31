@@ -1,4 +1,3 @@
-
 import { Product, Category } from './types';
 
 export const CATEGORIES: Category[] = [
@@ -11,37 +10,98 @@ export const CATEGORIES: Category[] = [
 ];
 
 export const MOCK_PRODUCTS: Product[] = [
+  // Flower
   {
     id: "f1",
-    name: "OG Kush",
+    name: "Sour Diesel - Reserve Tank (3.5g)",
     category: Category.FLOWER,
-    price: 45.00,
-    description: "A classic strain known for its stress-relieving effects.",
-    imageUrl: "https://picsum.photos/seed/ogkush/400/400",
+    price: 55.00,
+    description: "An invigorating sativa strain with a pungent, diesel-like aroma.",
+    imageUrl: "https://i.imgur.com/CH8PUGc.jpeg",
   },
   {
     id: "f2",
-    name: "Blue Dream",
+    name: "WHOPPERZ - TD STUDIOS (3.5g)",
     category: Category.FLOWER,
-    price: 50.00,
-    description: "A sativa-dominant hybrid, perfect for daytime use.",
-    imageUrl: "https://picsum.photos/seed/bluedream/400/400",
+    price: 60.00,
+    description: "A potent and flavorful strain from the experts at TD STUDIOS.",
+    imageUrl: "https://i.imgur.com/zCN6q8E.jpeg",
   },
   {
+    id: "f3",
+    name: "Baby Mama Drama - Sprinklez (3.5g)",
+    category: Category.FLOWER,
+    price: 58.00,
+    description: "A unique and exciting strain by Sprinklez, sure to be a new favorite.",
+    imageUrl: "https://i.imgur.com/RuquitD.jpeg",
+  },
+  {
+    id: "f4",
+    name: "GOOF TROOP- TD Studios (3.5g)",
+    category: Category.FLOWER,
+    price: 62.00,
+    description: "Another top-shelf offering from TD Studios, known for its strong effects.",
+    imageUrl: "https://i.imgur.com/DVpReok.jpeg",
+  },
+  {
+    id: "f5",
+    name: "Blow Pop- Quick Printz (3.5g)",
+    category: Category.FLOWER,
+    price: 54.00,
+    description: "A sweet and powerful strain by Quick Printz with a candy-like aroma.",
+    imageUrl: "https://i.imgur.com/GRvjzK5.jpeg",
+  },
+
+  // Pre-Packaged
+  {
     id: "pp1",
-    name: "Indica Eighth (3.5g)",
+    name: "Sour Diesel - Reserve Tank (3.5g)",
     category: Category.PRE_PACKAGED,
-    price: 40.00,
-    description: "A convenient pre-packaged eighth of our house indica.",
-    imageUrl: "https://picsum.photos/seed/indica8/400/400",
+    price: 55.00,
+    description: "A convenient pre-packaged eighth of the invigorating Sour Diesel.",
+    imageUrl: "https://i.imgur.com/CH8PUGc.jpeg",
   },
   {
     id: "pp2",
-    name: "Sativa Preroll Pack (5)",
+    name: "WHOPPERZ - TD STUDIOS (3.5g)",
     category: Category.PRE_PACKAGED,
-    price: 35.00,
-    description: "Five perfectly rolled sativa prerolls, ready to go.",
-    imageUrl: "https://picsum.photos/seed/sativapreroll/400/400",
+    price: 60.00,
+    description: "A pre-packaged eighth of the potent and flavorful WHOPPERZ.",
+    imageUrl: "https://i.imgur.com/zCN6q8E.jpeg",
+  },
+  {
+    id: "pp3",
+    name: "Baby Mama Drama - Sprinklez (3.5g)",
+    category: Category.PRE_PACKAGED,
+    price: 58.00,
+    description: "A pre-packaged eighth of the unique and exciting Baby Mama Drama.",
+    imageUrl: "https://i.imgur.com/RuquitD.jpeg",
+  },
+  {
+    id: "pp4",
+    name: "GOOF TROOP- TD Studios (3.5g)",
+    category: Category.PRE_PACKAGED,
+    price: 62.00,
+    description: "A pre-packaged eighth of the top-shelf GOOF TROOP.",
+    imageUrl: "https://i.imgur.com/DVpReok.jpeg",
+  },
+  {
+    id: "pp5",
+    name: "Blow Pop- Quick Printz (3.5g)",
+    category: Category.PRE_PACKAGED,
+    price: 54.00,
+    description: "A pre-packaged eighth of the sweet and powerful Blow Pop.",
+    imageUrl: "https://i.imgur.com/GRvjzK5.jpeg",
+  },
+
+  // Edibles
+  {
+    id: "e0",
+    name: "1000mg Double Fudge Brownie",
+    category: Category.EDIBLES,
+    price: 45.00,
+    description: "An incredibly potent and delicious double fudge brownie, perfect for experienced users.",
+    imageUrl: "https://i.imgur.com/9g22Kjt.jpeg",
   },
   {
     id: "e1",
@@ -60,6 +120,24 @@ export const MOCK_PRODUCTS: Product[] = [
     imageUrl: "https://picsum.photos/seed/chocolatebar/400/400",
   },
   {
+    id: "e3",
+    name: "Brownie Bites (150mg)",
+    category: Category.EDIBLES,
+    price: 28.00,
+    description: "Fudgy and delicious brownie bites, with 15mg THC each.",
+    imageUrl: "https://picsum.photos/seed/browniebites/400/400",
+  },
+  {
+    id: "e4",
+    name: "THC Tincture (500mg)",
+    category: Category.EDIBLES,
+    price: 50.00,
+    description: "A fast-acting sublingual tincture for precise dosing.",
+    imageUrl: "https://picsum.photos/seed/thctincture/400/400",
+  },
+
+  // Concentrate
+  {
     id: "c1",
     name: "Live Resin (1g)",
     category: Category.CONCENTRATE,
@@ -75,6 +153,32 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A stable and potent concentrate with a glass-like consistency.",
     imageUrl: "https://picsum.photos/seed/shatter/400/400",
   },
+  {
+    id: "c3",
+    name: "Rosin (1g)",
+    category: Category.CONCENTRATE,
+    price: 70.00,
+    description: "Solventless rosin with a pure and potent flavor profile.",
+    imageUrl: "https://picsum.photos/seed/rosin/400/400",
+  },
+  {
+    id: "c4",
+    name: "Wax (1g)",
+    category: Category.CONCENTRATE,
+    price: 50.00,
+    description: "A soft, opaque concentrate that is easy to handle.",
+    imageUrl: "https://picsum.photos/seed/wax/400/400",
+  },
+  {
+    id: "c5",
+    name: "Diamonds (1g)",
+    category: Category.CONCENTRATE,
+    price: 80.00,
+    description: "Pure THCa crystals suspended in a terpene-rich sauce.",
+    imageUrl: "https://picsum.photos/seed/diamonds/400/400",
+  },
+
+  // Disposables
   {
     id: "d1",
     name: "Hybrid Disposable Vape",
@@ -92,6 +196,32 @@ export const MOCK_PRODUCTS: Product[] = [
     imageUrl: "https://picsum.photos/seed/cbdvape/400/400",
   },
   {
+    id: "d3",
+    name: "Sativa Disposable Vape",
+    category: Category.DISPOSABLES,
+    price: 40.00,
+    description: "An uplifting sativa vape for creativity and focus.",
+    imageUrl: "https://picsum.photos/seed/sativavape/400/400",
+  },
+  {
+    id: "d4",
+    name: "Indica Disposable Vape",
+    category: Category.DISPOSABLES,
+    price: 40.00,
+    description: "A relaxing indica vape to help you unwind.",
+    imageUrl: "https://picsum.photos/seed/indicavape/400/400",
+  },
+  {
+    id: "d5",
+    name: "1:1 CBD/THC Vape",
+    category: Category.DISPOSABLES,
+    price: 45.00,
+    description: "A balanced blend of CBD and THC for a mellow experience.",
+    imageUrl: "https://picsum.photos/seed/1to1vape/400/400",
+  },
+
+  // Merch
+  {
     id: "m1",
     name: "Branded T-Shirt",
     category: Category.MERCH,
@@ -106,5 +236,29 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 30.00,
     description: "A high-quality snapback hat with an embroidered logo.",
     imageUrl: "https://picsum.photos/seed/snapback/400/400",
+  },
+  {
+    id: "m3",
+    name: "Beanie",
+    category: Category.MERCH,
+    price: 20.00,
+    description: "A warm and stylish beanie with our logo.",
+    imageUrl: "https://picsum.photos/seed/beanie/400/400",
+  },
+  {
+    id: "m4",
+    name: "Grinder",
+    category: Category.MERCH,
+    price: 15.00,
+    description: "A durable 4-piece metal grinder for the perfect consistency.",
+    imageUrl: "https://picsum.photos/seed/grinder/400/400",
+  },
+  {
+    id: "m5",
+    name: "Rolling Tray",
+    category: Category.MERCH,
+    price: 18.00,
+    description: "A custom rolling tray to keep your space clean.",
+    imageUrl: "https://picsum.photos/seed/rollingtray/400/400",
   },
 ];
