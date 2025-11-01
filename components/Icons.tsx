@@ -39,10 +39,3 @@ export const CheckCircleIcon: React.FC<IconProps> = ({ className = 'w-6 h-6' }) 
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
 );
-
-export const BackspaceIcon: React.FC<IconProps> = ({ className = 'w-6 h-6' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M20 6a1 1 0 011 1v10a1 1 0 01-1 1H9l-5-5a1.5 1.5 0 010-2l5-5h11z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 10l4 4m0-4l-4 4" />
-  </svg>
-);
