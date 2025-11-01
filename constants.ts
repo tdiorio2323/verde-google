@@ -15,7 +15,7 @@ export const MOCK_PRODUCTS: Product[] = [
   // Long Money Exotics Products
   {
     id: "lme-pp1",
-    name: "Strawberry Goyard",
+    name: "Strawberry Goyard (3.5g)",
     category: Category.PRE_PACKAGED,
     price: 39.99,
     description: "Premium pre-packaged flower with a sweet strawberry aroma.",
@@ -25,7 +25,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: "lme-pp2",
-    name: "Popsicle Goyard",
+    name: "Popsicle Goyard (3.5g)",
     category: Category.PRE_PACKAGED,
     price: 39.99,
     description: "Exclusive pre-packaged flower with a cool, refreshing flavor profile.",
@@ -35,7 +35,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: "lme-pp3",
-    name: "Green Apple Goyard",
+    name: "Green Apple Goyard (3.5g)",
     category: Category.PRE_PACKAGED,
     price: 39.99,
     description: "A tangy and potent pre-packaged flower with a crisp green apple taste.",
