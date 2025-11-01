@@ -1,9 +1,4 @@
 
-export enum Brand {
-  CANNA_CONNECT = "CannaConnect",
-  LONG_MONEY_EXOTICS = "Long Money Exotics",
-}
-
 export enum Category {
   FLOWER = "Flower",
   PRE_PACKAGED = "Pre-Packaged Flower",
@@ -27,7 +22,6 @@ export interface Product {
   description: string;
   imageUrl: string;
   inStock: boolean;
-  brand?: Brand;
 }
 
 export interface CartItem {

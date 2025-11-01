@@ -1,4 +1,4 @@
-import { Product, Category, Brand } from './types';
+import { Product, Category } from './types';
 
 export const CATEGORIES: Category[] = [
   Category.FLOWER,
@@ -19,7 +19,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "An invigorating sativa strain with a pungent, diesel-like aroma.",
     imageUrl: "https://i.imgur.com/CH8PUGc.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "f2",
@@ -29,7 +28,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A potent and flavorful strain from the experts at TD STUDIOS.",
     imageUrl: "https://i.imgur.com/zCN6q8E.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "f3",
@@ -39,7 +37,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A unique and exciting strain by Sprinklez, sure to be a new favorite.",
     imageUrl: "https://i.imgur.com/RuquitD.jpeg",
     inStock: false,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "f4",
@@ -49,7 +46,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "Another top-shelf offering from TD Studios, known for its strong effects.",
     imageUrl: "https://i.imgur.com/DVpReok.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "f5",
@@ -59,7 +55,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A sweet and powerful strain by Quick Printz with a candy-like aroma.",
     imageUrl: "https://i.imgur.com/GRvjzK5.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
 
   // Pre-Packaged
@@ -71,7 +66,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A convenient pre-packaged eighth of the invigorating Sour Diesel.",
     imageUrl: "https://i.imgur.com/CH8PUGc.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "pp2",
@@ -81,7 +75,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A pre-packaged eighth of the potent and flavorful WHOPPERZ.",
     imageUrl: "https://i.imgur.com/zCN6q8E.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "pp3",
@@ -91,7 +84,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A pre-packaged eighth of the unique and exciting Baby Mama Drama.",
     imageUrl: "https://i.imgur.com/RuquitD.jpeg",
     inStock: false,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "pp4",
@@ -101,7 +93,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A pre-packaged eighth of the top-shelf GOOF TROOP.",
     imageUrl: "https://i.imgur.com/DVpReok.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "pp5",
@@ -111,7 +102,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A pre-packaged eighth of the sweet and powerful Blow Pop.",
     imageUrl: "https://i.imgur.com/GRvjzK5.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
 
   // Edibles
@@ -123,7 +113,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "An incredibly potent and delicious double fudge brownie, perfect for experienced users.",
     imageUrl: "https://i.imgur.com/9g22Kjt.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "e1",
@@ -133,7 +122,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "Delicious fruit-flavored gummies, each with 10mg THC.",
     imageUrl: "https://picsum.photos/seed/gummybites/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "e2",
@@ -143,7 +131,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "Rich dark chocolate with a potent punch. Breakable into 10mg squares.",
     imageUrl: "https://picsum.photos/seed/chocolatebar/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "e3",
@@ -153,7 +140,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "Fudgy and delicious brownie bites, with 15mg THC each.",
     imageUrl: "https://picsum.photos/seed/browniebites/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "e4",
@@ -163,7 +149,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A fast-acting sublingual tincture for precise dosing.",
     imageUrl: "https://picsum.photos/seed/thctincture/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
 
   // Concentrate
@@ -175,7 +160,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "High-terpene full spectrum extract for the discerning connoisseur.",
     imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "c2",
@@ -185,7 +169,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A stable and potent concentrate with a glass-like consistency.",
     imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
     inStock: false,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "c3",
@@ -195,7 +178,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "Solventless rosin with a pure and potent flavor profile.",
     imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "c4",
@@ -205,7 +187,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A soft, opaque concentrate that is easy to handle.",
     imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "c5",
@@ -215,7 +196,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "Pure THCa crystals suspended in a terpene-rich sauce.",
     imageUrl: "https://i.imgur.com/SpdxsdC.jpeg",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
 
   // Disposables
@@ -227,7 +207,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A discreet and easy-to-use disposable vape pen with a balanced hybrid oil.",
     imageUrl: "https://picsum.photos/seed/hybridvape/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "d2",
@@ -237,7 +216,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A high-CBD disposable vape for relaxation without the high.",
     imageUrl: "https://picsum.photos/seed/cbdvape/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "d3",
@@ -247,7 +225,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "An uplifting sativa vape for creativity and focus.",
     imageUrl: "https://picsum.photos/seed/sativavape/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "d4",
@@ -257,7 +234,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A relaxing indica vape to help you unwind.",
     imageUrl: "https://picsum.photos/seed/indicavape/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "d5",
@@ -267,7 +243,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A balanced blend of CBD and THC for a mellow experience.",
     imageUrl: "https://picsum.photos/seed/1to1vape/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
 
   // Merch
@@ -279,7 +254,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A comfortable and stylish t-shirt with our brand logo.",
     imageUrl: "https://picsum.photos/seed/tshirt/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "m2",
@@ -289,7 +263,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A high-quality snapback hat with an embroidered logo.",
     imageUrl: "https://picsum.photos/seed/snapback/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "m3",
@@ -299,7 +272,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A warm and stylish beanie with our logo.",
     imageUrl: "https://picsum.photos/seed/beanie/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "m4",
@@ -309,7 +281,6 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A durable 4-piece metal grinder for the perfect consistency.",
     imageUrl: "https://picsum.photos/seed/grinder/400/400",
     inStock: false,
-    brand: Brand.CANNA_CONNECT,
   },
   {
     id: "m5",
@@ -319,58 +290,5 @@ export const MOCK_PRODUCTS: Product[] = [
     description: "A custom rolling tray to keep your space clean.",
     imageUrl: "https://picsum.photos/seed/rollingtray/400/400",
     inStock: true,
-    brand: Brand.CANNA_CONNECT,
-  },
-  
-  // Long Money Exotics Products
-  {
-    id: "lme-pp1",
-    name: "Strawberry Goyard",
-    category: Category.PRE_PACKAGED,
-    price: 39.99,
-    description: "Premium pre-packaged flower with a sweet strawberry aroma.",
-    imageUrl: "https://i.imgur.com/Fm4rXLu.jpeg",
-    inStock: true,
-    brand: Brand.LONG_MONEY_EXOTICS,
-  },
-  {
-    id: "lme-pp2",
-    name: "Popsicle Goyard",
-    category: Category.PRE_PACKAGED,
-    price: 39.99,
-    description: "Exclusive pre-packaged flower with a cool, refreshing flavor profile.",
-    imageUrl: "https://i.imgur.com/5zJaC9v.jpeg",
-    inStock: true,
-    brand: Brand.LONG_MONEY_EXOTICS,
-  },
-  {
-    id: "lme-pp3",
-    name: "Green Apple Goyard",
-    category: Category.PRE_PACKAGED,
-    price: 39.99,
-    description: "A tangy and potent pre-packaged flower with a crisp green apple taste.",
-    imageUrl: "https://i.imgur.com/zBwLB7C.jpeg",
-    inStock: true,
-    brand: Brand.LONG_MONEY_EXOTICS,
-  },
-  {
-    id: "lme-m1",
-    name: "Long Money Exotics Sticker",
-    category: Category.MERCH,
-    price: 7.00,
-    description: "High-quality vinyl sticker featuring the Long Money Exotics logo.",
-    imageUrl: "https://i.imgur.com/s01nTdc.jpeg",
-    inStock: true,
-    brand: Brand.LONG_MONEY_EXOTICS,
-  },
-  {
-    id: "lme-m2",
-    name: "Long Money Exotics Beanie (Grey)",
-    category: Category.MERCH,
-    price: 25.00,
-    description: "A stylish and comfortable grey beanie with the Long Money Exotics logo.",
-    imageUrl: "https://i.imgur.com/BUNigf2.jpeg",
-    inStock: true,
-    brand: Brand.LONG_MONEY_EXOTICS,
   },
 ];

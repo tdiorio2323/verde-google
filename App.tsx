@@ -1,43 +1,107 @@
 import React, { useState, useEffect } from 'react';
-import { User, Product, CartItem, Category, Order, Brand } from './types';
-import { CATEGORIES, MOCK_PRODUCTS } from './constants';
+import { User, Product, CartItem, Category, Order } from './types';
+import { CATEGORIES } from './constants';
+import { supabase } from './lib/supabaseClient';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
 import Login from './components/Login';
 import CartView from './components/CartView';
 import OrderConfirmation from './components/OrderConfirmation';
 import ProductDetailView from './components/ProductDetailView';
-import LongMoneyExotics from './components/LongMoneyExotics';
 
 type View = 'login' | 'products' | 'cart' | 'confirmation' | 'productDetail';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [brand, setBrand] = useState<Brand | null>(null);
   const [currentView, setCurrentView] = useState<View>('login');
+  const [loading, setLoading] = useState(true);
+
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [products] = useState<Product[]>(MOCK_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Category.FLOWER);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Redirect to login if user is not set and trying to access protected views
-    if (!user && currentView !== 'login') {
-      setCurrentView('login');
-    }
-  }, [user, currentView]);
-  
-  const handleLogin = (loggedInUser: User, brandToSet: Brand) => {
-    setUser(loggedInUser);
-    setBrand(brandToSet);
-    setCurrentView('products');
+    const getInitialSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const supaUser = session.user;
+        const appUser: User = {
+          id: supaUser.id,
+          email: supaUser.email!,
+          name: supaUser.user_metadata.brand_name || supaUser.email!.split('@')[0],
+        };
+        setUser(appUser);
+        setCurrentView('products');
+      }
+      setLoading(false);
+    };
+
+    getInitialSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        const supaUser = session.user;
+        const appUser: User = {
+          id: supaUser.id,
+          email: supaUser.email!,
+          name: supaUser.user_metadata.brand_name || supaUser.email!.split('@')[0],
+        };
+        setUser(appUser);
+        setCurrentView('products');
+      } else {
+        setUser(null);
+        setCurrentView('login');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (user) {
+        const { data, error } = await supabase.from('products').select('*');
+        if (error) {
+          console.error('Error fetching products:', error);
+        } else {
+          setProducts(data as Product[]);
+        }
+      } else {
+        // Clear products when user logs out
+        setProducts([]);
+      }
+    };
+    fetchProducts();
+  }, [user]);
+
+  const handleSignIn = async (email, password) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    setBrand(null);
-    setCurrentView('login'); // Go back to login screen on logout
+  const handleSignUp = async (email, password, brandName, instagram, phone) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          brand_name: brandName,
+          instagram_url: instagram,
+          phone_number: phone,
+        }
+      }
+    });
+    if (error) throw error;
+    alert('Sign up successful! Please check your email to confirm your account.');
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error('Error logging out:', error);
   };
   
   const handleSelectProduct = (productId: string) => {
@@ -73,17 +137,46 @@ const App: React.FC = () => {
     setCart(cart.filter(item => item.product.id !== productId));
   };
 
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (!user) {
       setCurrentView('login');
       return;
     }
+    const orderTotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+
+    const { data: orderData, error: orderError } = await supabase
+      .from('orders')
+      .insert({ user_id: user.id, total: orderTotal })
+      .select('id, created_at')
+      .single();
+    
+    if (orderError || !orderData) {
+      console.error('Error creating order:', orderError);
+      alert('There was an issue placing your order. Please try again.');
+      return;
+    }
+
+    const orderItems = cart.map(item => ({
+      order_id: orderData.id,
+      product_id: item.product.id,
+      quantity: item.quantity,
+      price: item.product.price,
+    }));
+
+    const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
+    
+    if (itemsError) {
+      console.error('Error saving order items:', itemsError);
+      alert('Could not save all items in the order. Please contact support.');
+      return;
+    }
+
     const newOrder: Order = {
-      id: `ORD-${Date.now()}`,
+      id: orderData.id,
       user,
       items: cart,
-      total: cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
-      orderDate: new Date(),
+      total: orderTotal,
+      orderDate: new Date(orderData.created_at),
     };
     setCurrentOrder(newOrder);
     setCart([]);
@@ -99,7 +192,7 @@ const App: React.FC = () => {
     if ((view === 'cart' || view === 'products') && !user) {
         setCurrentView('login');
     } else {
-        setSelectedProductId(null); // Reset selected product when navigating via header
+        setSelectedProductId(null);
         setCurrentView(view);
     }
   };
@@ -129,23 +222,14 @@ const App: React.FC = () => {
         }
         return <ProductDetailView 
                   product={selectedProduct} 
-                  onAddToCart={(product) => addToCart(product)} 
+                  onAddToCart={(product, quantity) => addToCart(product, quantity)} 
                   onBack={backToProducts}
                />;
       }
       case 'products':
       default:
-        if (brand === Brand.LONG_MONEY_EXOTICS) {
-          const lmeProducts = products.filter(p => p.brand === Brand.LONG_MONEY_EXOTICS);
-          return <LongMoneyExotics 
-            products={lmeProducts} 
-            onAddToCart={addToCart} 
-            onSelectProduct={handleSelectProduct} 
-          />
-        }
-
         const filteredProducts = products.filter(
-          (p) => p.category === selectedCategory && (p.brand === Brand.CANNA_CONNECT || !p.brand)
+          (p) => p.category === selectedCategory
         );
         return (
           <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -182,9 +266,17 @@ const App: React.FC = () => {
         );
     }
   };
+  
+  if (loading) {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-base-100 text-white font-bold text-xl">
+            Initializing CannaConnect...
+        </div>
+    );
+  }
 
   if (currentView === 'login') {
-    return <Login onLogin={handleLogin} />;
+    return <Login onSignIn={handleSignIn} onSignUp={handleSignUp} />;
   }
 
   return (

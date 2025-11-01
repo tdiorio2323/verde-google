@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { PlusIcon, CheckCircleIcon } from './Icons';
+import { PlusIcon, CheckCircleIcon, MinusIcon } from './Icons';
 
 interface ProductDetailViewProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
+  onAddToCart: (product: Product, quantity: number) => void;
   onBack: () => void;
 }
 
 const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, onAddToCart, onBack }) => {
   const [added, setAdded] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   
   const handleAddToCart = () => {
     if (!product.inStock || added) return;
-    onAddToCart(product);
+    onAddToCart(product, quantity);
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => {
+      setAdded(false);
+      setQuantity(1);
+    }, 2000);
   };
 
   return (
@@ -56,32 +60,53 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, onAddToC
             >
                 Item added to your cart!
             </div>
-             <button
-              onClick={handleAddToCart}
-              disabled={!product.inStock || added}
-              aria-label={!product.inStock ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
-              className={`w-full flex items-center justify-center py-4 px-6 text-lg font-bold rounded-lg transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-200 ${
-                !product.inStock
-                  ? 'bg-base-300 text-gray-500 cursor-not-allowed'
-                  : added 
-                    ? 'bg-amber-500 text-white focus:ring-amber-400' 
-                    : 'bg-primary text-secondary hover:bg-green-300 focus:ring-primary'
-              }`}
-            >
-              {!product.inStock ? (
-                <span>Out of Stock</span>
-              ) : added ? (
-                <>
-                  <CheckCircleIcon className="w-7 h-7 mr-3" />
-                  <span>Added to Cart</span>
-                </>
-              ) : (
-                <>
-                  <PlusIcon className="w-7 h-7 mr-3" />
-                  <span>Add to Cart</span>
-                </>
-              )}
-            </button>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center rounded-full bg-base-300/80 p-1">
+                  <button
+                      onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                      disabled={quantity <= 1 || !product.inStock}
+                      className="p-2 rounded-full text-gray-300 hover:bg-base-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Decrease quantity"
+                  >
+                      <MinusIcon className="w-6 h-6"/>
+                  </button>
+                  <span className="w-12 text-center font-bold text-2xl text-white tabular-nums">{quantity}</span>
+                  <button
+                      onClick={() => setQuantity(q => q + 1)}
+                      disabled={!product.inStock}
+                      className="p-2 rounded-full text-gray-300 hover:bg-base-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Increase quantity"
+                  >
+                      <PlusIcon className="w-6 h-6"/>
+                  </button>
+              </div>
+              <button
+                onClick={handleAddToCart}
+                disabled={!product.inStock || added}
+                aria-label={!product.inStock ? `${product.name} is out of stock` : `Add ${quantity} of ${product.name} to cart`}
+                className={`w-full flex items-center justify-center py-4 px-6 text-lg font-bold rounded-lg transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-200 ${
+                  !product.inStock
+                    ? 'bg-base-300 text-gray-500 cursor-not-allowed'
+                    : added 
+                      ? 'bg-amber-500 text-white focus:ring-amber-400' 
+                      : 'bg-primary text-secondary hover:bg-green-300 focus:ring-primary'
+                }`}
+              >
+                {!product.inStock ? (
+                  <span>Out of Stock</span>
+                ) : added ? (
+                  <>
+                    <CheckCircleIcon className="w-7 h-7 mr-3" />
+                    <span>Added</span>
+                  </>
+                ) : (
+                  <>
+                    <PlusIcon className="w-7 h-7 mr-3" />
+                    <span>Add to Cart</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

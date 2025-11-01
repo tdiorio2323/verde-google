@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { User, Brand } from '../types';
 
 interface LoginProps {
-  onLogin: (user: User, brand: Brand) => void;
+  onSignIn: (email: string, password: string) => Promise<void>;
+  onSignUp: (email: string, password: string, brandName: string, instagram: string, phone: string) => Promise<void>;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC<LoginProps> = ({ onSignIn, onSignUp }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [vipCode, setVipCode] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -20,55 +20,47 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(() => setError(''), 3000);
+      const timer = setTimeout(() => setError(''), 4000);
       return () => clearTimeout(timer);
     }
   }, [error]);
+  
+  // Reset fields when toggling between Sign In and Sign Up
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setBrandName('');
+    setInstagram('');
+    setPhone('');
+    setError('');
+  }, [isSignUp]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSignUp) {
-        // This is a placeholder for actual sign-up logic
-        alert(`Sign-up submitted for:\nBrand: ${brandName}\nEmail: ${email}\nInstagram: ${instagram}\nPhone: ${phone}`);
-        return;
+    
+    if (isSignUp && password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
     }
     
     setIsSubmitting(true);
     setError('');
 
-    // Simulate API call
-    setTimeout(() => {
-      let userBrand: Brand | null = null;
-      let success = false;
-
-      if (vipCode === '420') {
-        userBrand = Brand.CANNA_CONNECT;
-        success = true;
-      } else if (vipCode === '1111') {
-        userBrand = Brand.LONG_MONEY_EXOTICS;
-        success = true;
-      }
-
-      if (success && userBrand) {
-        const mockUser: User = {
-          id: `${vipCode}-user`,
-          email: email || `${vipCode}@user.com`,
-          name: email ? email.split('@')[0] : (userBrand === Brand.LONG_MONEY_EXOTICS ? 'LME Member' : 'VIP User'),
-        };
-        onLogin(mockUser, userBrand);
+    try {
+      if (isSignUp) {
+        await onSignUp(email, password, brandName, instagram, phone);
+        // On success, App component will receive auth event and navigate away.
+        // A confirmation alert is shown in the App component after the handler resolves.
       } else {
-        setError('Invalid VIP Code. Please try again.');
-        setVipCode('');
+        await onSignIn(email, password);
+        // On success, App component will receive auth event and navigate away.
       }
-      setIsSubmitting(false);
-    }, 1000);
-  };
-
-  const handleVipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    // Allow only numbers and enforce max length
-    if (/^\d*$/.test(value) && value.length <= 4) {
-      setVipCode(value);
+    } catch (err: any) {
+       setError(err.message || 'An unexpected error occurred.');
+    } finally {
+       setIsSubmitting(false);
     }
   };
 
@@ -99,39 +91,26 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </button>
         </div>
 
+        {error && <p className="mt-2 text-sm text-red-400 text-center animate-pulse">{error}</p>}
+
         {isSignUp ? (
           <form className="space-y-4" onSubmit={handleSubmit}>
             <input name="brandName" type="text" placeholder="Brand Name" value={brandName} onChange={e => setBrandName(e.target.value)} className={commonInputClass} required />
             <input name="instagram" type="text" placeholder="Instagram URL/Username" value={instagram} onChange={e => setInstagram(e.target.value)} className={commonInputClass} />
             <input name="email" type="email" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} className={commonInputClass} required />
             <input name="phone" type="tel" placeholder="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} className={commonInputClass} />
-            <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-lg text-secondary bg-primary hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-100 focus:ring-primary disabled:bg-gray-600 transition-colors duration-300">
-              Sign Up
+            <input name="password" type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} className={commonInputClass} required />
+            <input name="confirmPassword" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className={commonInputClass} required />
+
+            <button type="submit" disabled={isSubmitting} className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-lg text-secondary bg-primary hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-100 focus:ring-primary disabled:bg-gray-600 transition-colors duration-300">
+              {isSubmitting ? 'Creating Account...' : 'Sign Up'}
             </button>
           </form>
         ) : (
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
-              <input id="email-address" name="email" type="email" autoComplete="email" className={commonInputClass} placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input id="password" name="password" type="password" autoComplete="current-password" className={commonInputClass} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-            <hr className="border-white/20" />
-            <div>
-              <input
-                id="vip-code"
-                name="vip-code"
-                type="password"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                autoComplete="one-time-code"
-                className={`${commonInputClass} text-center tracking-[0.5em] h-[50px] placeholder:tracking-normal`}
-                placeholder="VIP CODE"
-                value={vipCode}
-                onChange={handleVipCodeChange}
-                maxLength={4}
-                aria-label="Enter VIP Code"
-              />
-              {error && <p className="mt-2 text-sm text-red-400 text-center animate-pulse">{error}</p>}
+              <input id="email-address" name="email" type="email" autoComplete="email" className={commonInputClass} placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+              <input id="password" name="password" type="password" autoComplete="current-password" className={commonInputClass} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </div>
             <div>
               <button type="submit" disabled={isSubmitting} className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-lg text-secondary bg-primary hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-100 focus:ring-primary disabled:bg-gray-600 transition-colors duration-300">
